@@ -1,0 +1,656 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Modern color palette */
+    --primary: #00ff88;
+    --primary-light: #5cffb1;
+    --primary-dark: #00cc6a;
+    --dark: #0a0f1a;
+    --darker: #050a14;
+    --light: #f0f4ff;
+    --gray: #94a3b8;
+    --gray-dark: #475569;
+    
+    /* Status colors */
+    --success: #00ff88;
+    --info: #3b82f6;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    
+    /* UI Colors */
+    --card-bg: rgba(15, 23, 42, 0.95);
+    --card-border: rgba(99, 102, 241, 0.12);
+    --input-bg: rgba(30, 41, 59, 0.7);
+    --input-border: rgba(99, 102, 241, 0.2);
+    --input-focus-border: rgba(99, 102, 241, 0.5);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, #6366f1 100%);
+    --gradient-card: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-primary: 0 0 15px rgba(0, 255, 136, 0.3);
+    
+    /* Border radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+    color: var(--light);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.card {
+    background: var(--gradient-card);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--card-border);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(0, 255, 136, 0.1));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.005);
+    box-shadow: var(--shadow-xl), 0 10px 25px -5px rgba(0, 255, 136, 0.1);
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+    opacity: 0.8;
+}
+
+.subtitle {
+    color: var(--gray);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.bmi-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    margin: 2.5rem 0;
+    position: relative;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+}
+
+label {
+    color: var(--gray);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+input {
+    background: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    color: var(--light);
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-sm);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    background: rgba(30, 41, 59, 0.9);
+}
+
+input::placeholder {
+    color: var(--gray-dark);
+    opacity: 0.7;
+}
+
+.input-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+input:focus + .input-icon {
+    color: var(--primary);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.calculate-btn {
+    background: var(--gradient-primary);
+    color: #0a0f1a;
+    border: none;
+    padding: 1.1rem 2rem;
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+}
+
+.calculate-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #4f46e5 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+
+
+.calculate-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
+}
+
+.calculate-btn:hover::before {
+    opacity: 1;
+}
+
+.calculate-btn svg {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    width: 20px;
+    height: 20px;
+}
+
+.calculate-btn:hover svg {
+    transform: translateX(4px) rotate(-5deg);
+}
+
+/* Animated focus effect */
+@keyframes inputFocus {
+    from {
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4);
+    }
+    to {
+        box-shadow: 0 0 0 6px rgba(0, 255, 136, 0);
+    }
+}
+
+/* Result Styles */
+.result {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    animation: fadeIn 0.5s ease-out;
+    overflow: hidden;
+    position: relative;
+}
+
+.result::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary);
+}
+
+.result.normal::before { background: var(--success); }
+.result.underweight::before { background: var(--info); }
+.result.overweight::before { background: var(--warning); }
+.result.obese::before { background: var(--danger); }
+
+.result-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.bmi-value, .bmi-category {
+    text-align: center;
+}
+
+.label {
+    display: block;
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--light);
+    line-height: 1;
+}
+
+.category {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.category.normal { background: rgba(29, 185, 84, 0.15); color: var(--success); }
+.category.underweight { background: rgba(29, 161, 242, 0.15); color: var(--info); }
+.category.overweight { background: rgba(245, 166, 35, 0.15); color: var(--warning); }
+.category.obese { background: rgba(231, 76, 60, 0.15); color: var(--danger); }
+
+/* BMI Scale */
+.bmi-scale {
+    width: 100%;
+    height: 10px;
+    background: #2a2a2a;
+    border-radius: 5px;
+    margin-top: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+.scale-segment {
+    height: 100%;
+    flex: 1;
+    position: relative;
+    font-size: 0;
+    transition: all 0.3s ease;
+}
+
+.scale-segment::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: var(--gray);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.scale-segment:hover::after {
+    opacity: 1;
+}
+
+.scale-segment.underweight { background: var(--info); }
+.scale-segment.normal { background: var(--success); }
+.scale-segment.overweight { background: var(--warning); }
+.scale-segment.obese { background: var(--danger); }
+
+.scale-marker {
+    position: absolute;
+    top: -6px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 10px solid white;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    z-index: 2;
+}
+
+/* BMI Info */
+.bmi-info {
+    margin-top: 2.5rem;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+}
+
+.bmi-info h3 {
+    color: var(--light);
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.bmi-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.bmi-info li {
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dot.underweight { background: var(--info); }
+.dot.normal { background: var(--success); }
+.dot.overweight { background: var(--warning); }
+.dot.obese { background: var(--danger); }
+
+/* Footer */
+.footer {
+    margin-top: 2.5rem;
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.85rem;
+    padding: 0 1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .card {
+        padding: 1.5rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .result-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .bmi-info {
+        padding: 1rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+        padding: 0;
+    }
+    
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        padding: 1rem !important;
+    }
+    
+    .calculate-btn, .footer {
+        display: none !important;
+    }
+}
+
+/* Dark mode preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --card-bg: rgba(25, 25, 25, 0.9);
+        --input-bg: rgba(255, 255, 255, 0.07);
+    }
+}
+
+/* Accessibility Focus Styles */
+*:focus {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Remove focus styles for mouse users */
+.mouse-user *:focus {
+    outline: none;
+}
+
+/* Add focus styles for keyboard navigation */
+.keyboard-user *:focus {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Print styles for results */
+@media print {
+    .result {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
+/* Loading animation */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+}
+
+/* Tooltip styles */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 5px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--darker);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gray-dark);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gray);
+}
+
+/* Print styles for the entire page */
+@media print {
+    @page {
+        size: A4;
+        margin: 1cm;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+    
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .card {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+    
+    .calculate-btn, .footer, .bmi-scale, .bmi-info h3 {
+        display: none !important;
+    }
+    
+    .result {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+}
+
+/* Animation for the BMI value */
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    80% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.value {
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
