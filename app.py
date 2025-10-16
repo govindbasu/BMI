@@ -1,26 +1,31 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET", "POST"])
-def home():
-    bmi = None
-    category = None
-    if request.method == "POST":
-        height = float(request.form["height"]) / 100  
-        weight = float(request.form["weight"])
-        bmi = round(weight / (height ** 2), 2)
+todos = []
 
-        if bmi < 18.5:
-            category = "Underweight"
-        elif 18.5 <= bmi < 24.9:
-            category = "Normal"
-        elif 25 <= bmi < 29.9:
-            category = "Overweight"
-        else:
-            category = "Obese"
+@app.route('/')
+def index():
+    return render_template('index.html', todos=todos)
 
-    return render_template("index.html", bmi=bmi, category=category)
+@app.route('/add', methods=['POST'])
+def add():
+    todo = request.form.get('todo')
+    if todo:
+        todos.append({'task': todo, 'done': False})
+    return redirect(url_for('index'))
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+@app.route('/complete/<int:index>')
+def complete(index):
+    if 0 <= index < len(todos):
+        todos[index]['done'] = not todos[index]['done']
+    return redirect(url_for('index'))
+
+@app.route('/delete/<int:index>')
+def delete(index):
+    if 0 <= index < len(todos):
+        todos.pop(index)
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    app.run(debug=True)
