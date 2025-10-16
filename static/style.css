@@ -2,95 +2,166 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Arial', sans-serif;
 }
 
 body {
-    background-color: #f5f5f5;
+    background-color: #121212;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
 }
 
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-    background: white;
-    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+    background-color: #1e1e1e;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    padding: 30px;
 }
 
 h1 {
     text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+    color: #4caf50;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
 }
 
-.add-todo {
+.calculator {
     display: flex;
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.add-todo input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px 0 0 4px;
-    font-size: 16px;
-}
-
-.add-todo button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.add-todo button:hover {
-    background-color: #45a049;
-}
-
-.todo-list {
-    list-style: none;
-}
-
-.todo-list li {
+.input-group {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    background-color: #f9f9f9;
-    margin-bottom: 8px;
-    border-radius: 4px;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    color: #9e9e9e;
+    font-size: 1.1em;
+}
+
+input {
+    padding: 12px 15px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    font-size: 1em;
     transition: all 0.3s ease;
 }
 
-.todo-list li:hover {
-    background-color: #f0f0f0;
+input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
 }
 
-.todo-list li.completed span {
-    text-decoration: line-through;
-    color: #888;
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
 }
 
-.actions a {
-    margin-left: 10px;
-    text-decoration: none;
-    color: #666;
-    font-size: 18px;
+button:hover {
+    background-color: #43a047;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.complete {
-    color: #4CAF50 !important;
+button:active {
+    transform: translateY(0);
 }
 
-.delete {
-    color: #f44336 !important;
+.result {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #2d2d2d;
+    border-radius: 5px;
+    text-align: center;
+    border-left: 4px solid #4caf50;
 }
 
-.actions a:hover {
-    opacity: 0.8;
+.result p {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+#bmi-value {
+    color: #4caf50;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+#bmi-category {
+    color: #4caf50;
+    font-weight: bold;
+    font-size: 1.3em;
+    text-transform: uppercase;
+}
+
+/* Category-specific colors */
+.result.underweight {
+    border-left-color: #2196f3;
+}
+
+.result.underweight #bmi-value,
+.result.underweight #bmi-category {
+    color: #2196f3;
+}
+
+.result.normal {
+    border-left-color: #4caf50;
+}
+
+.result.normal #bmi-value,
+.result.normal #bmi-category {
+    color: #4caf50;
+}
+
+.result.overweight {
+    border-left-color: #ff9800;
+}
+
+.result.overweight #bmi-value,
+.result.overweight #bmi-category {
+    color: #ff9800;
+}
+
+.result.obese {
+    border-left-color: #f44336;
+}
+
+.result.obese #bmi-value,
+.result.obese #bmi-category {
+    color: #f44336;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    input, button {
+        padding: 10px 15px;
+    }
 }

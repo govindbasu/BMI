@@ -1,31 +1,43 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-todos = []
-
 @app.route('/')
-def index():
-    return render_template('index.html', todos=todos)
+def home():
+    return render_template('index.html')
 
-@app.route('/add', methods=['POST'])
-def add():
-    todo = request.form.get('todo')
-    if todo:
-        todos.append({'task': todo, 'done': False})
-    return redirect(url_for('index'))
-
-@app.route('/complete/<int:index>')
-def complete(index):
-    if 0 <= index < len(todos):
-        todos[index]['done'] = not todos[index]['done']
-    return redirect(url_for('index'))
-
-@app.route('/delete/<int:index>')
-def delete(index):
-    if 0 <= index < len(todos):
-        todos.pop(index)
-    return redirect(url_for('index'))
+@app.route('/calculate', methods=['POST'])
+def calculate():
+    try:
+        weight = float(request.form.get('weight'))
+        height = float(request.form.get('height')) / 100  # Convert cm to meters
+        
+        if weight <= 0 or height <= 0:
+            return jsonify({'error': 'Weight and height must be positive numbers'}), 400
+            
+        bmi = weight / (height * height)
+        
+        if bmi < 18.5:
+            category = 'Underweight'
+            category_class = 'underweight'
+        elif 18.5 <= bmi < 25:
+            category = 'Normal weight'
+            category_class = 'normal'
+        elif 25 <= bmi < 30:
+            category = 'Overweight'
+            category_class = 'overweight'
+        else:
+            category = 'Obese'
+            category_class = 'obese'
+            
+        return jsonify({
+            'bmi': round(bmi, 1),
+            'category': category,
+            'category_class': category_class
+        })
+        
+    except (ValueError, TypeError):
+        return jsonify({'error': 'Please enter valid numbers'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

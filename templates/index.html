@@ -3,30 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple To-Do List</title>
+    <title>BMI Calculator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>My To-Do List</h1>
-        <form action="{{ url_for('add') }}" method="POST" class="add-todo">
-            <input type="text" name="todo" placeholder="Add a new task" required>
-            <button type="submit">Add</button>
-        </form>
-        
-        <ul class="todo-list">
-            {% for todo in todos %}
-            <li class="{% if todo.done %}completed{% endif %}">
-                <span>{{ todo.task }}</span>
-                <div class="actions">
-                    <a href="{{ url_for('complete', index=loop.index0) }}" class="complete">
-                        {{ '✓' if todo.done else '◻' }}
-                    </a>
-                    <a href="{{ url_for('delete', index=loop.index0) }}" class="delete">🗑️</a>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
+        <h1>BMI Calculator</h1>
+        <div class="calculator"> <div class="input-group">
+                <label for="height">Height (cm):</label>
+                <input type="number" id="height" step="0.1" min="1" required>
+            </div>
+            <div class="input-group">
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" step="0.1" min="1" required>
+            </div>
+           
+            <button onclick="calculateBMI()">Calculate BMI</button>
+            <div id="result" class="result">
+                <p>Your BMI: <span id="bmi-value">-</span></p>
+                <p>Category: <span id="bmi-category">-</span></p>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function calculateBMI() {
+            const weight = document.getElementById('weight').value;
+            const height = document.getElementById('height').value;
+
+            fetch('/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `weight=${weight}&height=${height}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                const resultDiv = document.getElementById('result');
+                resultDiv.className = 'result ' + data.category_class;
+                document.getElementById('bmi-value').textContent = data.bmi;
+                document.getElementById('bmi-category').textContent = data.category;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while calculating BMI');
+            });
+        }
+    </script>
 </body>
 </html>
